@@ -310,11 +310,19 @@ export async function build(_options: Options) {
                   : [options.ignoreWatch]
                 : []
 
-              const ignored = [
+              let ignored = [
                 '**/{.git,node_modules}/**',
                 options.outDir,
                 ...customIgnores,
               ]
+
+              if (options.overrideIgnoredPaths) {
+                ignored = [
+                  ...options.overrideIgnoredPaths,
+                  options.outDir,
+                  ...customIgnores
+                ]
+              }
 
               const watchPaths =
                 typeof options.watch === 'boolean'
@@ -369,6 +377,14 @@ export async function build(_options: Options) {
                     depsHash = currentHash
                   } else if (!buildDependencies.has(file)) {
                     shouldSkipChange = true
+                  }
+                }
+
+                if (options.watchInternalPackages) {
+                  const internalPackageChange = options.watchInternalPackages.some(internalPackage => file.includes(internalPackage))
+
+                  if (internalPackageChange) {
+                    shouldSkipChange = false
                   }
                 }
 
