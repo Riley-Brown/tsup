@@ -124,6 +124,8 @@ export type Options = {
   minifySyntax?: boolean
   keepNames?: boolean
   watch?: boolean | string | (string | boolean)[]
+  watchInternalPackages?: string[]
+  overrideIgnoredPaths?: string[]
   ignoreWatch?: string[] | string
   onSuccess?:
     | string
