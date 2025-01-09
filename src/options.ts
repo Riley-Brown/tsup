@@ -50,9 +50,9 @@ export type ExperimentalDtsConfig = {
 
 export type BannerOrFooter =
   | {
-      js?: string
-      css?: string
-    }
+    js?: string
+    css?: string
+  }
   | ((ctx: { format: Format }) => { js?: string; css?: string } | undefined)
 
 export type BrowserTarget =
@@ -84,14 +84,9 @@ export type EsTarget =
   | 'es2021'
   | 'es2022'
   | 'es2023'
-  | 'es2024'
   | 'esnext'
 
-export type Target =
-  | BrowserTarget
-  | BrowserTargetWithVersion
-  | EsTarget
-  | (string & {})
+export type Target = BrowserTarget | BrowserTargetWithVersion | EsTarget
 
 export type Entry = string[] | Record<string, string>
 
@@ -128,8 +123,8 @@ export type Options = {
   overrideIgnoredPaths?: string[]
   ignoreWatch?: string[] | string
   onSuccess?:
-    | string
-    | (() => Promise<void | undefined | (() => void | Promise<void>)>)
+  | string
+  | (() => Promise<void | undefined | (() => void | Promise<void>)>)
   jsxFactory?: string
   jsxFragment?: string
   outDir?: string
@@ -218,9 +213,7 @@ export type Options = {
    * Inject CSS as style tags to document head
    * @default {false}
    */
-  injectStyle?:
-    | boolean
-    | ((css: string, fileId: string) => string | Promise<string>)
+  injectStyle?: boolean | ((css: string, fileId: string) => string | Promise<string>)
   /**
    * Inject cjs and esm shims if needed
    * @default false

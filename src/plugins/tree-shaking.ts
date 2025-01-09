@@ -39,7 +39,7 @@ export const treeShakingPlugin = ({
         treeshake,
         makeAbsoluteExternalsRelative: false,
         preserveEntrySignatures: 'exports-only',
-        onwarn: silent ? () => {} : undefined,
+        onwarn: silent ? () => { } : undefined,
       })
 
       const result = await bundle.generate({
@@ -47,7 +47,6 @@ export const treeShakingPlugin = ({
         format: this.format,
         file: info.path,
         sourcemap: !!this.options.sourcemap,
-        compact: !!this.options.minify,
         name,
       })
 

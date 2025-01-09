@@ -41,9 +41,9 @@ export type RenderChunk = (
   chunkInfo: ChunkInfo,
 ) => MaybePromise<
   | {
-      code: string
-      map?: object | string | SourceMap | null
-    }
+    code: string
+    map?: object | string | SourceMap | null
+  }
   | undefined
   | null
   | void
@@ -182,12 +182,12 @@ export class PluginContainer {
         const contents =
           info.type === 'chunk'
             ? info.code +
-              getSourcemapComment(
-                inlineSourceMap,
-                info.map,
-                info.path,
-                isCSS(info.path),
-              )
+            getSourcemapComment(
+              inlineSourceMap,
+              info.map,
+              info.path,
+              isCSS(info.path),
+            )
             : info.contents
         await outputFile(info.path, contents, {
           mode: info.type === 'chunk' ? info.mode : undefined,
@@ -237,8 +237,8 @@ const getSourcemapComment = (
   const suffix = isCssFile ? ' */' : ''
   const url = inline
     ? `data:application/json;base64,${Buffer.from(
-        typeof map === 'string' ? map : JSON.stringify(map),
-      ).toString('base64')}`
+      typeof map === 'string' ? map : JSON.stringify(map),
+    ).toString('base64')}`
     : `${path.basename(filepath)}.map`
   return `${prefix}# sourceMappingURL=${url}${suffix}`
 }

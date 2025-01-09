@@ -1,9 +1,8 @@
-import fs from 'node:fs'
-import fsp from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { expect } from 'vitest'
-import { exec } from 'tinyexec'
+import execa from 'execa'
+import fs from 'fs-extra'
 import { glob } from 'tinyglobby'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -36,28 +35,24 @@ export async function run(
 
   // Write entry files on disk
   await Promise.all(
-    Object.keys(files).map(async (name) => {
-      const filePath = path.resolve(testDir, name)
-      const parentDir = path.dirname(filePath)
-      // Thanks to `recursive: true`, this doesn't fail even if the directory already exists.
-      await fsp.mkdir(parentDir, { recursive: true })
-      return fsp.writeFile(filePath, files[name], 'utf8')
+    Object.keys(files).map((name) => {
+      return fs.outputFile(path.resolve(testDir, name), files[name], 'utf8')
     }),
   )
 
   const entry = options.entry || ['input.ts']
 
   // Run tsup cli
-  const processPromise = exec(bin, [...entry, ...(options.flags || [])], {
-    nodeOptions: {
+  const { exitCode, stdout, stderr } = await execa(
+    bin,
+    [...entry, ...(options.flags || [])],
+    {
       cwd: testDir,
       env: { ...process.env, ...options.env },
     },
-  })
-  const { stdout, stderr } = await processPromise
-
+  )
   const logs = stdout + stderr
-  if (processPromise.exitCode !== 0) {
+  if (exitCode !== 0) {
     throw new Error(logs)
   }
 
@@ -74,7 +69,7 @@ export async function run(
     logs,
     outDir: path.resolve(testDir, 'dist'),
     getFileContent(filename: string) {
-      return fsp.readFile(path.resolve(testDir, filename), 'utf8')
+      return fs.readFile(path.resolve(testDir, filename), 'utf8')
     },
   }
 }

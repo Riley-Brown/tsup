@@ -174,7 +174,6 @@ function emit(compilerOptions?: any, tsconfig?: string) {
       ...rawTsconfig.data,
       compilerOptions: {
         ...rawTsconfig.data?.compilerOptions,
-        ...compilerOptions,
 
         // Enable declaration emit and disable javascript emit
         noEmit: false,
