@@ -47,13 +47,13 @@ export const swcTarget = (): Plugin => {
           minify:
             this.options.minify === true
               ? {
-                  compress: false,
-                  mangle: {
-                    reserved: this.options.globalName
-                      ? [this.options.globalName]
-                      : [],
-                  },
-                }
+                compress: false,
+                mangle: {
+                  reserved: this.options.globalName
+                    ? [this.options.globalName]
+                    : [],
+                },
+              }
               : undefined,
         },
         module: {

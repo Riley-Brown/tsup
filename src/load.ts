@@ -13,8 +13,7 @@ const loadJson = async (filepath: string) => {
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(
-        `Failed to parse ${path.relative(process.cwd(), filepath)}: ${
-          error.message
+        `Failed to parse ${path.relative(process.cwd(), filepath)}: ${error.message
         }`,
       )
     } else {
@@ -41,15 +40,15 @@ export async function loadTsupConfig(
     files: configFile
       ? [configFile]
       : [
-          'tsup.config.ts',
-          'tsup.config.cts',
-          'tsup.config.mts',
-          'tsup.config.js',
-          'tsup.config.cjs',
-          'tsup.config.mjs',
-          'tsup.config.json',
-          'package.json',
-        ],
+        'tsup.config.ts',
+        'tsup.config.cts',
+        'tsup.config.mts',
+        'tsup.config.js',
+        'tsup.config.cjs',
+        'tsup.config.mjs',
+        'tsup.config.json',
+        'package.json',
+      ],
     cwd,
     stopDir: path.parse(cwd).root,
     packageKey: 'tsup',
